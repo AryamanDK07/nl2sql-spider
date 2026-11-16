@@ -1,0 +1,7 @@
+.env
+*.key
+__pycache__/
+.ipynb_checkpoints/
+spider/
+spider_data/
+*.zip
