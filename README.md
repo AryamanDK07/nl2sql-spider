@@ -2,6 +2,15 @@
 
 Converts plain-English questions into SQLite queries over the [Spider](https://yale-lily.github.io/spider) benchmark, validates each query by running it, and explains the result in natural language. Five generation methods are compared on the same 100 questions.
 
+## Team
+
+| Name | SRN |
+|---|---|
+| Spoorthy M | PES1UG24AM280 |
+| Aryaman D K | PES1UG24AM344 |
+| Shristi Shukla | PES1UG24AM268 |
+| Aditya Umashankar | PES1UG24AM335 |
+
 ## Methods compared
 1. Zero-shot
 2. Few-shot (4 examples from a different database)
