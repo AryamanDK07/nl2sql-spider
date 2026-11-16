@@ -18,6 +18,25 @@ Converts plain-English questions into SQLite queries over the [Spider](https://y
 4. Self-correction chain (execute, review, fix; up to 3 rounds)
 5. LangChain SQL agent with database tools
 
+## Pipeline architecture
+
+```mermaid
+flowchart TD
+    Q[Natural-language question] --> S[Schema extraction<br/>tables, columns, keys, sample rows]
+    S --> G{Generation method}
+    G --> Z[Zero-shot]
+    G --> F[Few-shot<br/>4 examples from a different DB]
+    G --> C[Chain-of-thought<br/>6-step query plan]
+    G --> SC[Self-correction loop<br/>max 3 rounds]
+    G --> A[LangChain SQL agent<br/>ReAct, 3 DB tools]
+    Z --> V[Validate: execute on SQLite]
+    F --> V
+    C --> V
+    SC --> V
+    A --> V
+    V --> E[Explain result in plain English]
+    V --> M[Metrics: execution acc, exact match, avg iterations]
+```
 ## Results (100 Spider dev questions, 25 each: simple, aggregation, join, nested)
 
 | Method | Execution acc. | Exact match | Avg tokens | Avg time (s) | Avg corrections |
