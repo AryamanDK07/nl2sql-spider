@@ -2,6 +2,15 @@
 
 Converts plain-English questions into SQLite queries over the [Spider](https://yale-lily.github.io/spider) benchmark, validates each query by running it, and explains the result in natural language. Five generation methods are compared on the same 100 questions.
 
+## Team
+
+| Name | SRN |
+|---|---|
+| Spoorthy M | PES1UG24AM280 |
+| Aryaman D K | PES1UG24AM344 |
+| Shristi Shukla | PES1UG24AM268 |
+| Aditya Umashankar | PES1UG24AM335 |
+
 ## Methods compared
 1. Zero-shot
 2. Few-shot (4 examples from a different database)
@@ -9,6 +18,25 @@ Converts plain-English questions into SQLite queries over the [Spider](https://y
 4. Self-correction chain (execute, review, fix; up to 3 rounds)
 5. LangChain SQL agent with database tools
 
+## Pipeline architecture
+
+```mermaid
+flowchart TD
+    Q[Natural-language question] --> S[Schema extraction<br/>tables, columns, keys, sample rows]
+    S --> G{Generation method}
+    G --> Z[Zero-shot]
+    G --> F[Few-shot<br/>4 examples from a different DB]
+    G --> C[Chain-of-thought<br/>6-step query plan]
+    G --> SC[Self-correction loop<br/>max 3 rounds]
+    G --> A[LangChain SQL agent<br/>ReAct, 3 DB tools]
+    Z --> V[Validate: execute on SQLite]
+    F --> V
+    C --> V
+    SC --> V
+    A --> V
+    V --> E[Explain result in plain English]
+    V --> M[Metrics: execution acc, exact match, avg iterations]
+```
 ## Results (100 Spider dev questions, 25 each: simple, aggregation, join, nested)
 
 | Method | Execution acc. | Exact match | Avg tokens | Avg time (s) | Avg corrections |
